@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>sample
+        </title>
+        <style>
+            body { margin: 0; padding: 0; }
+            html, body, #map { height: 100%; }
+        
+
+            #pngtile {
+            padding: 3px 4px;
+            font: 20px/30px Arial, Helvetica, sans-serif;
+            color: black;
+            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            /*width: fit-content;*/
+            width: 100px;
+            left: 10px;
+            position: absolute;
+            top: 10px;
+            z-index: 1;
+        }
+        </style>
+        <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css' />
+        <script src='https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js'></script>
+        <script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
+
+
+    
+    </head>
+    <body style="margin: 0">       
+        <div id="pngtile">
+            <label><b>コース</b></label><br>
+            <select id="courseSelect">
+                <option value="r3-1" selected>M21</option>
+                <option value="r3-2">A</option>
+                <option value="r3-3">B</option>
+                <option value="r3-4">N/G</option>
+            </select>
+        </div>
+        <div id='map'></div>
+    </body>
+    <script>
+        const hokkaidomapcoord = [
+            [141.6499333, 42.8265148], //left-top ,
+            [141.6642417, 42.8282033], //right-top ,
+            [141.66590610, 42.82079423], //right-bottom ,
+            [141.65157323, 42.81910078], //left-bottom ,
+        ];
+        const hokkaidomapcoordTurf = turf.points(hokkaidomapcoord);
+        const center = turf.center(hokkaidomapcoordTurf);
+        //console.log(center);  
+        const point1 = turf.point(hokkaidomapcoord[2]);
+        const point2 = turf.point(hokkaidomapcoord[1]) ;
+        var bearing = turf.bearing(point1, point2);
+        //console.log(bearing);
+
+
+        const map =  new maplibregl.Map({
+            container: 'map',
+            style: 'https://gsi-cyberjapan.github.io/gsivectortile-mapbox-gl-js/std.json', 
+            center: center.geometry.coordinates, 
+            zoom: 15, 
+            pitch: 0,
+            bearing: bearing,
+        });
+
+        map.on('load', () => {
+               //北海道の地図
+     
+
+            map.addSource('r3-1', {
+                type: "image",
+                url: "./hokkaido/4-Sprint_one_more_R3-1.png",
+                coordinates: hokkaidomapcoord
+            });
+
+            map.addSource('r3-2', {
+                type: "image",
+                url: "./hokkaido/4-Sprint_one_more_R3-2.png",
+                coordinates: hokkaidomapcoord
+            });
+
+            map.addSource('r3-3', {
+                type: "image",
+                url: "./hokkaido/4-Sprint_one_more_R3-3.png",
+                coordinates: hokkaidomapcoord
+            });
+
+            map.addSource('r3-4', {
+                type: "image",
+                url: "./hokkaido/4-Sprint_one_more_R3-4.png",
+                coordinates: hokkaidomapcoord
+            });
+
+            map.addLayer({id: "r3-1", source: "r3-1", type: "raster", paint: {}, style: {}});
+            map.addLayer({id: "r3-2", source: "r3-2", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
+            map.addLayer({id: "r3-3", source: "r3-3", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
+            map.addLayer({id: "r3-4", source: "r3-4", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
+
+/*             const bbox = map.getBounds(hokkaidomapcoord);
+            console.log(bbox);
+            map.fitBounds(bbox); */
+
+        });
+
+        //初期値
+        var visibleLayer = "r3-1";
+        
+        document.getElementById(('courseSelect')).addEventListener('change', function() {
+            map.setLayoutProperty(visibleLayer, 'visibility', 'none');
+            selectedCourse = this.value;
+            //console.log(selectedCourse);
+            map.setLayoutProperty(selectedCourse, 'visibility', 'visible');
+            visibleLayer = selectedCourse;    
+            //console.log(visibleLayer);        
+        })
+
+
+    </script>
+    
+</html>
