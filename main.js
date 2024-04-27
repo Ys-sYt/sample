@@ -70,15 +70,15 @@ map.on('load', () => {
   //ルート追加
   map.addSource('m21_1', {
     type: 'geojson',
-    data: '/route/route_m21_1.geojson'
+    data: './route/route_m21_1.geojson'
   });
   map.addSource('m21_2', {
     type: 'geojson',
-    data: '/route/route_m21_2.geojson'
+    data: './route/route_m21_2.geojson'
   });
   map.addSource('m21_3', {
     type: 'geojson',
-    data: '/route/route_m21_3.geojson'
+    data: './route/route_m21_3.geojson'
   });
   map.addLayer({
     id: 'm21_1',
