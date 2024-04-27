@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>sample
+        </title>
+        <style>
+            body { margin: 0; padding: 0; display: flex;}
+            html, body, #map { height: 100%;}
+            .map{
+                width: 75%;
+                float: left;
+            }
+            .rightpanel {
+                width: 25%;
+                float: right;
+            }
+
+            #pngtile {
+            padding: 3px 4px;
+            font: 20px/30px Arial, Helvetica, sans-serif;
+            color: black;
+            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            /*width: fit-content;*/
+            width: 100%;
+            position: fixed;
+            z-index: 1;
+            }
+
+            .legend {
+            /*background-color: #fff;*/
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 3px;
+/*             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10); */
+            font: 12px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            
+            position: fixed;
+            top: 70px;
+            z-index: 1;
+            line-height: 20px;
+            width: 100%;
+            height: auto;
+        }
+
+        .square {
+            width: 15px;
+            height: 15px;
+            border: solid 1.5px #000;
+            /*border-radius: 4px;*/
+        }
+
+
+        </style>     
+      <script type="module" crossorigin src="./assets/index-c6d52ca2.js"></script>
+      <link rel="stylesheet" href="./assets/index-d02d2a94.css">
+    </head>
+    <body style="margin: 0"> 
+        <div id="map" class="map"></div>
+
+        <div class="rightpanel">
+            <div id="pngtile">
+                <label><b>コース</b></label><br>
+                <select id="courseSelect">
+                    <option value="r3-1" selected>M21</option>
+                    <option value="r3-2">A</option>
+                    <option value="r3-3">B</option>
+                    <option value="r3-4">N/G</option>
+                </select>
+            </div>
+            <div id="r3-1" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-1</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-1</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-1</span><br>
+            </div>
+            <div id="r3-2" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-2</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-2</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-2</span><br>
+            </div>
+            <div id="r3-3" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-3</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-3</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-3</span><br>
+            </div>
+            <div id="r3-4" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-4</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-4</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-4</span><br>
+            </div>
+
+
+    </body>
+    
+    
+</html>

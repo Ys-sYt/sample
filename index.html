@@ -6,9 +6,16 @@
         <title>sample
         </title>
         <style>
-            body { margin: 0; padding: 0; }
-            html, body, #map { height: 100%; }
-        
+            body { margin: 0; padding: 0; display: flex;}
+            html, body, #map { height: 100%;}
+            .map{
+                width: 75%;
+                float: left;
+            }
+            .rightpanel {
+                width: 25%;
+                float: right;
+            }
 
             #pngtile {
             padding: 3px 4px;
@@ -19,107 +26,88 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             /*width: fit-content;*/
-            width: 100px;
-            left: 10px;
-            position: absolute;
-            top: 10px;
+            width: 100%;
+            position: fixed;
             z-index: 1;
+            }
+
+            .legend {
+            /*background-color: #fff;*/
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 3px;
+/*             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10); */
+            font: 12px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            
+            position: fixed;
+            top: 70px;
+            z-index: 1;
+            line-height: 20px;
+            width: 100%;
+            height: auto;
         }
-        </style>
-        <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css' />
-        <script src='https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js'></script>
-        <script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
+
+        .square {
+            width: 15px;
+            height: 15px;
+            border: solid 1.5px #000;
+            /*border-radius: 4px;*/
+        }
 
 
-    
+        </style>     
     </head>
-    <body style="margin: 0">       
-        <div id="pngtile">
-            <label><b>コース</b></label><br>
-            <select id="courseSelect">
-                <option value="r3-1" selected>M21</option>
-                <option value="r3-2">A</option>
-                <option value="r3-3">B</option>
-                <option value="r3-4">N/G</option>
-            </select>
-        </div>
-        <div id='map'></div>
+    <body style="margin: 0"> 
+        <div id="map" class="map"></div>
+
+        <div class="rightpanel">
+            <div id="pngtile">
+                <label><b>コース</b></label><br>
+                <select id="courseSelect">
+                    <option value="r3-1" selected>M21</option>
+                    <option value="r3-2">A</option>
+                    <option value="r3-3">B</option>
+                    <option value="r3-4">N/G</option>
+                </select>
+            </div>
+            <div id="r3-1" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-1</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-1</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-1</span><br>
+            </div>
+            <div id="r3-2" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-2</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-2</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-2</span><br>
+            </div>
+            <div id="r3-3" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-3</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-3</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-3</span><br>
+            </div>
+            <div id="r3-4" class='legend'>
+                <h2>走者</h2>
+                <div class="square" style='background-color: #ff1493; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-4</span><br>
+                <div class="square" style='background-color: #0000cd; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large">r3-4</span><br>
+                <div class="square" style='background-color: #ff8c00; display: inline-block;'>
+                </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-4</span><br>
+            </div>
+
+
     </body>
-    <script>
-        const hokkaidomapcoord = [
-            [141.6499333, 42.8265148], //left-top ,
-            [141.6642417, 42.8282033], //right-top ,
-            [141.66590610, 42.82079423], //right-bottom ,
-            [141.65157323, 42.81910078], //left-bottom ,
-        ];
-        const hokkaidomapcoordTurf = turf.points(hokkaidomapcoord);
-        const center = turf.center(hokkaidomapcoordTurf);
-        //console.log(center);  
-        const point1 = turf.point(hokkaidomapcoord[2]);
-        const point2 = turf.point(hokkaidomapcoord[1]) ;
-        var bearing = turf.bearing(point1, point2);
-        //console.log(bearing);
-
-
-        const map =  new maplibregl.Map({
-            container: 'map',
-            style: 'https://gsi-cyberjapan.github.io/gsivectortile-mapbox-gl-js/std.json', 
-            center: center.geometry.coordinates, 
-            zoom: 15, 
-            pitch: 0,
-            bearing: bearing,
-        });
-
-        map.on('load', () => {
-               //北海道の地図
-     
-
-            map.addSource('r3-1', {
-                type: "image",
-                url: "./hokkaido/4-Sprint_one_more_R3-1.png",
-                coordinates: hokkaidomapcoord
-            });
-
-            map.addSource('r3-2', {
-                type: "image",
-                url: "./hokkaido/4-Sprint_one_more_R3-2.png",
-                coordinates: hokkaidomapcoord
-            });
-
-            map.addSource('r3-3', {
-                type: "image",
-                url: "./hokkaido/4-Sprint_one_more_R3-3.png",
-                coordinates: hokkaidomapcoord
-            });
-
-            map.addSource('r3-4', {
-                type: "image",
-                url: "./hokkaido/4-Sprint_one_more_R3-4.png",
-                coordinates: hokkaidomapcoord
-            });
-
-            map.addLayer({id: "r3-1", source: "r3-1", type: "raster", paint: {}, style: {}});
-            map.addLayer({id: "r3-2", source: "r3-2", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
-            map.addLayer({id: "r3-3", source: "r3-3", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
-            map.addLayer({id: "r3-4", source: "r3-4", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
-
-/*             const bbox = map.getBounds(hokkaidomapcoord);
-            console.log(bbox);
-            map.fitBounds(bbox); */
-
-        });
-
-        //初期値
-        var visibleLayer = "r3-1";
-        
-        document.getElementById(('courseSelect')).addEventListener('change', function() {
-            map.setLayoutProperty(visibleLayer, 'visibility', 'none');
-            selectedCourse = this.value;
-            //console.log(selectedCourse);
-            map.setLayoutProperty(selectedCourse, 'visibility', 'visible');
-            visibleLayer = selectedCourse;    
-            //console.log(visibleLayer);        
-        })
-    </script>
+    <script type="module" src="./main.js"></script>
     
 </html>

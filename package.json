@@ -10,5 +10,12 @@
   },
   "devDependencies": {
     "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "@turf/bearing": "^6.5.0",
+    "@turf/center": "^6.5.0",
+    "@turf/distance": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "maplibre-gl": "^4.1.3"
   }
 }
