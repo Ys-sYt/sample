@@ -68,41 +68,55 @@ map.on('load', () => {
   map.fitBounds(bbox); */
 
   //ルート追加
-  map.addSource('m21_1', {
+  map.addSource('route_r3-1', {
     type: 'geojson',
-    data: './route/route_m21_1.geojson'
+    data: './route/r3-1.geojson'
   });
-  map.addSource('m21_2', {
+  map.addSource('route_r3-2', {
     type: 'geojson',
-    data: './route/route_m21_2.geojson'
+    data: './route/r3-2.geojson',
   });
-  map.addSource('m21_3', {
+/*   map.addSource('m21_3', {
     type: 'geojson',
     data: './route/route_m21_3.geojson'
-  });
+  }); */
   map.addLayer({
-    id: 'm21_1',
+    id: 'route_r3-1',
     type: 'line',
-    source: 'm21_1',
-    layout: {},
+    source: 'route_r3-1',
+    //"layout": {'visibility': 'none'},
     paint: {
       'line-width': 2,
-      'line-color': '#ff1493',
+      'line-color':[
+        'interpolate',
+        ['linear'],
+        ['get', 'standing'],
+        1, '#ff1493',
+        2, '#0000cd',
+        3, '#ff8c00',
+      ],
       'line-dasharray': [3, 3],
     },
   });
   map.addLayer({
-    id: 'm21_2',
+    id: 'route_r3-2',
     type: 'line',
-    source: 'm21_2',
-    layout: {},
+    source: 'route_r3-2',
+    "layout": {'visibility': 'none'},
     paint: {
       'line-width': 2,
-      'line-color': '#0000cd',
+      'line-color':[
+        'interpolate',
+        ['linear'],
+        ['get', 'standing'],
+        1, '#ff1493',
+        2, '#0000cd',
+        3, '#ff8c00',
+      ],
       'line-dasharray': [3, 3],
     },
   });
-  map.addLayer({
+/*   map.addLayer({
     id: 'm21_3',
     type: 'line',
     source: 'm21_3',
@@ -112,7 +126,7 @@ map.on('load', () => {
       'line-color': '#ff8c00',
       'line-dasharray': [3, 3],
     },
-  });
+  }); */
 
   //chat gpt
   // 選択されたコースに対応する ID を持つ .legend 要素を非表示にする
@@ -133,20 +147,33 @@ map.on('load', () => {
 
   //初期値
   let selectedCourse = "r3-1";
-  let visibleLayer = "r3-1";
+  let visibleMap = "r3-1";
+  let visibleRoute = "route_" + visibleMap;
+  //console.log(visibleRoute);
+
 
   //display visibleLayer's legend
   hideAllLegends()
-  showSelectedLegend(visibleLayer); 
+  showSelectedLegend(visibleMap); 
 
+  //event lister, detecting chaning pul-down
   document.getElementById(('courseSelect')).addEventListener('change', function() {
-    //map change
-    map.setLayoutProperty(visibleLayer, 'visibility', 'none');
+    //turn off visible map
+    map.setLayoutProperty(visibleMap, 'visibility', 'none');
+
+    //turn off visible route
+    map.setLayoutProperty(visibleRoute, 'visibility', 'none');
+    
+    //store selected value
     selectedCourse = this.value;
-    //console.log(selectedCourse);
+    visibleRoute = "route_"+selectedCourse;
+
+    //make selected map visible
     map.setLayoutProperty(selectedCourse, 'visibility', 'visible');
-    visibleLayer = selectedCourse;    
-    //console.log(visibleLayer);  
+    map.setLayoutProperty(visibleRoute, 'visibility', 'visible');
+  
+    visibleMap = selectedCourse;    
+
     
     hideAllLegends(); // すべての .legend 要素を非表示にする
     showSelectedLegend(selectedCourse); // 選択されたコースに対応する .legend 要素を表示する
