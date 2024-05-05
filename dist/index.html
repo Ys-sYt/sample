@@ -17,17 +17,17 @@
                 float: right;
             }
 
-            #selection {
-            /* padding: 3px 4px; */
+            .dropdown {
+            padding: 3px 4px;
             font: 20px/30px Arial, Helvetica, sans-serif;
             color: black;
             background: white;
             background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
             border-radius: 5px;
             /*width: fit-content;*/
             width: 100%;
-            position: fixed;
+            /* position: fixed; */
             z-index: 1;
             }
 
@@ -38,7 +38,7 @@
 /*             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10); */
             font: 12px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             
-            position: fixed;
+            /* position: fixed; */
             top: 70px;
             z-index: 1;
             line-height: 20px;
@@ -55,20 +55,30 @@
 
 
         </style>     
-      <script type="module" crossorigin src="./assets/index-b41f0ee6.js"></script>
+      <script type="module" crossorigin src="./assets/index-cc8cedac.js"></script>
       <link rel="stylesheet" href="./assets/index-d02d2a94.css">
     </head>
     <body style="margin: 0"> 
         <div id="map" class="map"></div>
 
         <div class="rightpanel">
-            <div id="selection">
+            <div id="selection" class="dropdown">
                 <label><b>コース</b></label><br>
                 <select id="courseSelect">
                     <option value="r3-1" selected>M21</option>
                     <option value="r3-2">A</option>
                     <option value="r3-3">B</option>
                     <option value="r3-4">N/G</option>
+                </select>
+            </div>
+            <div id="secondDropdown" class="dropdown"></div>
+            <div id="test" class="dropdown">
+                <label><b>test</b></label><br>
+                <select id="testselection">
+                    <option value="0" selected>△1</option>
+                    <option value="1">1-2</option>
+                    <option value="2">2-3</option>
+                    <option value="3">3-4</option>
                 </select>
             </div>
             <div id="r3-1" class='legend'>
@@ -107,6 +117,8 @@
                 <div class="square" style='background-color: #d2691e; display: inline-block;'>
                 </div><span style="display: inline-block; margin-left: 5px; font-size: large;">r3-4</span><br>
             </div>
+
+        </div>
     </body>
     
     <script>
