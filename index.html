@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>sample
-        </title>
+        <link rel="manifest" href="manifest.json" />
+        <title>ルート研究v1</title>
         <style>
             body { margin: 0; padding: 0; display: flex;}
             html, body, #map { height: 100%;}
@@ -109,5 +109,9 @@
 
     </body>
     <script type="module" src="./main.js"></script>
-    
+    <script>
+        //PWA
+        if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
+    </script>
 </html>

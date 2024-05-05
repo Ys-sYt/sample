@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>sample
-        </title>
+        <link rel="manifest" href="manifest.json" />
+        <title>ルート研究v1</title>
         <style>
             body { margin: 0; padding: 0; display: flex;}
             html, body, #map { height: 100%;}
@@ -55,8 +55,8 @@
 
 
         </style>     
-      <script type="module" crossorigin src="./assets/index-98945e82.js"></script>
-      <link rel="stylesheet" href="./assets/index-d02d2a94.css">
+      <script type="module" crossorigin src="/assets/index-b41f0ee6.js"></script>
+      <link rel="stylesheet" href="/assets/index-d02d2a94.css">
     </head>
     <body style="margin: 0"> 
         <div id="map" class="map"></div>
@@ -111,5 +111,9 @@
 
     </body>
     
-    
+    <script>
+        //PWA
+        if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
+    </script>
 </html>

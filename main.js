@@ -36,11 +36,15 @@ const map =  new maplibregl.Map({
 //著作権表示
 map.addControl(
   new maplibregl.AttributionControl({
-    //compact: true,
+    compact: true,
     customAttribution:
       '<a href="https://maplibre.org/" target="_blank">MapLibre</a> | Maps are designed by <a href="https://twitter.com/miyakawa_to" target="_blank">宮川俊哉</a>, published under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">"CC BY-SA 4.0</a>" ',
   })
 );
+
+//フルスクリーン
+//map.addControl(new maplibregl.FullscreenControl());
+//map.addControl(new FullscreenControl({container: document.querySelector('body')}));
 
 map.on('load', () => {
     //地図追加
