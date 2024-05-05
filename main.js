@@ -44,6 +44,7 @@ map.addControl(
 
 //フルスクリーン
 //map.addControl(new maplibregl.FullscreenControl());
+//
 //map.addControl(new FullscreenControl({container: document.querySelector('body')}));
 
 map.on('load', () => {
