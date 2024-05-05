@@ -164,6 +164,43 @@ map.on('load', () => {
     }
   }
 
+  //chatGPT
+  //leg dropdown
+  function updateSecondDropdown() {
+    var secondDropdown = document.getElementById("secondDropdown");
+    var optionsHTML = "<option value='blank'>全体</option>";
+
+    if (selectedCourse === "r3-1") {
+      optionsHTML += "<option value='0'>△-1</option>";
+      for (var i = 1; i <= 16; i++) {
+        optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+      }
+      //console.log(i); i=17
+      optionsHTML += "<option value='" + i + "'>"+ i + "- ◎</option>";
+      //optionsHTML += "<option value='13'>13-◎</option>";
+    } else if (selectedCourse === "r3-2") {
+      optionsHTML += "<option value='0'>△-1</option>";
+        for (var i = 1; i <= 14; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='" + i + "'>"+ i + "- ◎</option>";
+    } else if (selectedCourse === "r3-3") {
+      optionsHTML += "<option value='0'>△-1</option>";
+        for (var i = 1; i <= 20; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='" + i + "'>"+ i + "- ◎</option>";
+    } else if (selectedCourse === "r3-4") {
+      optionsHTML += "<option value='0'>△-1</option>";
+        for (var i = 1; i <= 24; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='" + i + "'>"+ i + "- ◎</option>";
+    }
+
+    secondDropdown.innerHTML = "<label><b>表示</b></label><br><select>" + optionsHTML + "</select>";
+  }
+
   //初期値
   let selectedCourse = "r3-1";
   let visibleMap = "r3-1";
@@ -174,6 +211,7 @@ map.on('load', () => {
   //display visibleLayer's legend
   hideAllLegends()
   showSelectedLegend(visibleMap); 
+  updateSecondDropdown();
 
   //event lister, detecting chaning pul-down
   document.getElementById(('courseSelect')).addEventListener('change', function() {
@@ -196,7 +234,10 @@ map.on('load', () => {
     
     hideAllLegends(); // すべての .legend 要素を非表示にする
     showSelectedLegend(selectedCourse); // 選択されたコースに対応する .legend 要素を表示する
+    updateSecondDropdown();
   })
-
+  
+  //レッグを選択する
+  
 });
 

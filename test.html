@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Dropdown</title>
+</head>
+<body>
+
+<div id="selection">
+    <label><b>コース</b></label><br>
+    <select id="courseSelect" onchange="updateSecondDropdown()">
+        <option value="r3-1" selected>M21</option>
+        <option value="r3-2">A</option>
+        <option value="r3-3">B</option>
+        <option value="r3-4">N/G</option>
+    </select>
+</div>
+
+<div id="secondDropdown">
+    <!-- This will be populated dynamically -->
+</div>
+
+<script>
+function updateSecondDropdown() {
+    var courseSelect = document.getElementById("courseSelect");
+    var selectedValue = courseSelect.value;
+    var secondDropdown = document.getElementById("secondDropdown");
+    var optionsHTML = "<option value='start-1'>スタート-1</option>";
+
+    if (selectedValue === "r3-1") {
+        for (var i = 1; i <= 12; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='13'>13-フィニッシュ</option>";
+    } else if (selectedValue === "r3-2") {
+        for (var i = 1; i <= 14; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='15'>15-フィニッシュ</option>";
+    } else if (selectedValue === "r3-3") {
+        for (var i = 1; i <= 20; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='21'>21-フィニッシュ</option>";
+    } else if (selectedValue === "r3-4") {
+        for (var i = 1; i <= 24; i++) {
+            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
+        }
+        optionsHTML += "<option value='25'>25-フィニッシュ</option>";
+    }
+
+    secondDropdown.innerHTML = "<label><b>選択</b></label><br><select>" + optionsHTML + "</select>";
+}
+
+// Initial population of the second dropdown
+updateSecondDropdown();
+</script>
+
+</body>
+</html>
