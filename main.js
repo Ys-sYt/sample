@@ -30,14 +30,25 @@ const map =  new maplibregl.Map({
   zoom: 15, 
   pitch: 0,
   bearing: turfbearing,
+  attributionControl: false,
 });
+
+//著作権表示
+map.addControl(
+  new maplibregl.AttributionControl({
+    //compact: true,
+    customAttribution:
+      '<a href="https://maplibre.org/" target="_blank">MapLibre</a> | Maps are designed by <a href="https://twitter.com/miyakawa_to" target="_blank">宮川俊哉</a>, published under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">"CC BY-SA 4.0</a>" ',
+  })
+);
 
 map.on('load', () => {
     //地図追加
   map.addSource('r3-1', {
       type: "image",
       url: "./hokkaido/4-Sprint_one_more_R3-1.png",
-      coordinates: hokkaidomapcoord
+      coordinates: hokkaidomapcoord,
+      //attribution: '宮川俊哉'
   });
 
   map.addSource('r3-2', {
@@ -80,6 +91,8 @@ map.on('load', () => {
     type: 'geojson',
     data: './route/route_m21_3.geojson'
   }); */
+  //map.addLayer({id: 'outline', type: 'line', source: 'route_r3-1', paint: {'line-width': 0.5, 'line-color': 'black', 'line-gap-width': 2.1,'line-dasharray': [1, 1]}});
+  //点線じゃないからダメだった。
   map.addLayer({
     id: 'route_r3-1',
     type: 'line',
@@ -93,11 +106,12 @@ map.on('load', () => {
         ['get', 'standing'],
         1, '#ff1493',
         2, '#0000cd',
-        3, '#ff8c00',
+        3, '#d2691e',
       ],
       'line-dasharray': [3, 3],
     },
   });
+  
   map.addLayer({
     id: 'route_r3-2',
     type: 'line',
