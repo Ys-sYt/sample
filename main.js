@@ -3,26 +3,23 @@ import maplibregl, { LngLatBounds } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 //turf
-import { point, multiPoint, lineString } from '@turf/helpers';
+import { point,lineString, lineStrings, multiPoint } from '@turf/helpers';
 //import distance from '@turf/distance';
 import bearing from '@turf/bearing';
 import center from '@turf/center';
 import bbox from '@turf/bbox';
 
-const hokkaidomapcoord = [
+const mapcoord = [
   [141.6499333, 42.8265148], //left-top ,
   [141.6642417, 42.8282033], //right-top ,
   [141.66590610, 42.82079423], //right-bottom ,
   [141.65157323, 42.81910078], //left-bottom ,
 ];
-const hokkaidomapcoordTurf = multiPoint(hokkaidomapcoord);
-const mapcenter = center(hokkaidomapcoordTurf);
-//console.log(center);  
-const point1 = point(hokkaidomapcoord[2]);
-const point2 = point(hokkaidomapcoord[1]) ;
+const mapcoordTurf = multiPoint(mapcoord);
+const mapcenter = center(mapcoordTurf);
+const point1 = point(mapcoord[2]);
+const point2 = point(mapcoord[1]) ;
 var turfbearing = bearing(point1, point2);
-//console.log(bearing);
-
 
 const map =  new maplibregl.Map({
   container: 'map',
@@ -48,125 +45,113 @@ map.addControl(
 //
 //map.addControl(new FullscreenControl({container: document.querySelector('body')}));
 
-//array of course 
-/* const course_r3_1 = {
-  "type": "FeatureCollection",
-  "name": "course_r3_1",
-  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-  "features": [
-  { "type": "Feature", "properties": { "ID": 0 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.656646563798347, 42.824220461474532 ] ] } },
-  { "type": "Feature", "properties": { "ID": 1 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.656989414641998, 42.823103198795543 ] ] } },
-  { "type": "Feature", "properties": { "ID": 2 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.660565479138029, 42.822460206561665 ] ] } },
-  { "type": "Feature", "properties": { "ID": 3 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.661042866388698, 42.823510635957675 ] ] } },
-  { "type": "Feature", "properties": { "ID": 4 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.660490266648964, 42.824072336526058 ] ] } },
-  { "type": "Feature", "properties": { "ID": 5 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659102139895964, 42.825917342857366 ] ] } },
-  { "type": "Feature", "properties": { "ID": 6 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.657769112185292, 42.825487644591206 ] ] } },
-  { "type": "Feature", "properties": { "ID": 7 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.657713994653591, 42.824477018428922 ] ] } },
-  { "type": "Feature", "properties": { "ID": 8 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659559411269953, 42.823903574311494 ] ] } },
-  { "type": "Feature", "properties": { "ID": 9 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.658738772464943, 42.822853993102598 ] ] } },
-  { "type": "Feature", "properties": { "ID": 10 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.65815901768724, 42.823425949693984 ] ] } },
-  { "type": "Feature", "properties": { "ID": 11 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.66156813909123, 42.823183392832824 ] ] } },
-  { "type": "Feature", "properties": { "ID": 12 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659751301935813, 42.822288020376874 ] ] } },
-  { "type": "Feature", "properties": { "ID": 13 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659763550276182, 42.823204354574443 ] ] } },
-  { "type": "Feature", "properties": { "ID": 14 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.658238631899707, 42.824232968449479 ] ] } },
-  { "type": "Feature", "properties": { "ID": 15 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.660076903650776, 42.824975596067155 ] ] } },
-  { "type": "Feature", "properties": { "ID": 16 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659143988392316, 42.825342414885135 ] ] } },
-  { "type": "Feature", "properties": { "ID": 17 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.657974271886644, 42.825119329414363 ] ] } },
-  { "type": "Feature", "properties": { "ID": 99 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.656586126644243, 42.824721067444926 ] ] } }
-  ]
-}; */
-const courseCoordinates_r3_1 = [
-  [141.656646563798347, 42.824220461474532],
-  [141.656989414641998, 42.823103198795543],
-  [141.660565479138029, 42.822460206561665],
-  [141.661042866388698, 42.823510635957675],
-  [141.660490266648964, 42.824072336526058],
-  [141.659102139895964, 42.825917342857366],
-  [141.657769112185292, 42.825487644591206],
-  [141.657713994653591, 42.824477018428922],
-  [141.659559411269953, 42.823903574311494],
-  [141.658738772464943, 42.822853993102598],
-  [141.65815901768724, 42.823425949693984],
-  [141.66156813909123, 42.823183392832824],
-  [141.659751301935813, 42.822288020376874],
-  [141.659763550276182, 42.823204354574443],
-  [141.658238631899707, 42.824232968449479],
-  [141.660076903650776, 42.824975596067155],
-  [141.659143988392316, 42.825342414885135],
-  [141.657974271886644, 42.825119329414363],
-  [141.656586126644243, 42.824721067444926]
-];
-
-
-const course_r3_2 ={
-  "type": "FeatureCollection",
-  "name": "course_r3_2",
-  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-  "features": [
-  { "type": "Feature", "properties": { "ID": 0 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.656646563798347, 42.824220461474532 ] ] } },
-  { "type": "Feature", "properties": { "ID": 1 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.656646563798347, 42.824220461474532 ] ] } },
-  { "type": "Feature", "properties": { "ID": 2 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.660565479138029, 42.822460206561665 ] ] } },
-  { "type": "Feature", "properties": { "ID": 3 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.661042866388698, 42.823510635957675 ] ] } },
-  { "type": "Feature", "properties": { "ID": 4 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.660490266648964, 42.824072336526058 ] ] } },
-  { "type": "Feature", "properties": { "ID": 5 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.660076903650776, 42.824975596067155 ] ] } },
-  { "type": "Feature", "properties": { "ID": 6 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.657769112185292, 42.825487644591206 ] ] } },
-  { "type": "Feature", "properties": { "ID": 7 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.657713994653591, 42.824477018428922 ] ] } },
-  { "type": "Feature", "properties": { "ID": 8 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659559411269953, 42.823903574311494 ] ] } },
-  { "type": "Feature", "properties": { "ID": 9 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659763550276182, 42.823204354574443 ] ] } },
-  { "type": "Feature", "properties": { "ID": 10 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.658738772464943, 42.822853993102598 ] ] } },
-  { "type": "Feature", "properties": { "ID": 11 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.65815901768724, 42.823425949693984 ] ] } },
-  { "type": "Feature", "properties": { "ID": 12 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.66156813909123, 42.823183392832824 ] ] } },
-  { "type": "Feature", "properties": { "ID": 13 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.659751301935813, 42.822288020376874 ] ] } },
-  { "type": "Feature", "properties": { "ID": 14 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.658238631899707, 42.824232968449479 ] ] } },
-  { "type": "Feature", "properties": { "ID": 99 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 141.656586126644243, 42.824721067444926 ] ] } }
+//courseCoordinates
+const courseCoordinates = {
+  r3_1: [
+    [141.656646563798347, 42.824220461474532],
+    [141.656989414641998, 42.823103198795543],
+    [141.660565479138029, 42.822460206561665],
+    [141.661042866388698, 42.823510635957675],
+    [141.660490266648964, 42.824072336526058],
+    [141.659102139895964, 42.825917342857366],
+    [141.657769112185292, 42.825487644591206],
+    [141.657713994653591, 42.824477018428922],
+    [141.659559411269953, 42.823903574311494],
+    [141.658738772464943, 42.822853993102598],
+    [141.65815901768724, 42.823425949693984],
+    [141.66156813909123, 42.823183392832824],
+    [141.659751301935813, 42.822288020376874],
+    [141.659763550276182, 42.823204354574443],
+    [141.658238631899707, 42.824232968449479],
+    [141.660076903650776, 42.824975596067155],
+    [141.659143988392316, 42.825342414885135],
+    [141.657974271886644, 42.825119329414363],
+    [141.656586126644243, 42.824721067444926]
+  ],
+  r3_2: [
+    [ 141.656646563798347, 42.824220461474532 ],
+    [ 141.656989414641998, 42.823103198795543 ],
+    [ 141.660565479138029, 42.822460206561665 ],
+    [ 141.661042866388698, 42.823510635957675 ],
+    [ 141.660490266648964, 42.824072336526058 ],
+    [ 141.660076903650776, 42.824975596067155 ],
+    [ 141.657769112185292, 42.825487644591206 ],
+    [ 141.657713994653591, 42.824477018428922 ] ,
+    [141.659559411269953, 42.823903574311494],
+    [141.659763550276182, 42.823204354574443],
+    [141.658738772464943, 42.822853993102598],
+    [141.65815901768724, 42.823425949693984],
+    [141.66156813909123, 42.823183392832824],
+    [141.659751301935813, 42.822288020376874],
+    [141.658238631899707, 42.824232968449479],
+    [ 141.658222953016548, 42.8252819556525 ],
+    [ 141.656586126644243, 42.824721067444926 ] 
+  ],
+  r3_3: [
+    [141.656646563798347, 42.824220461474532],
+    [141.656646563798347, 42.824220461474532],
+    [141.660565479138029, 42.822460206561665],
+    [141.661042866388698, 42.823510635957675],
+    [141.660490266648964, 42.824072336526058],
+    [141.660076903650776, 42.824975596067155],
+    [141.657769112185292, 42.825487644591206],
+    [141.657713994653591, 42.824477018428922],
+    [141.659559411269953, 42.823903574311494],
+    [141.659763550276182, 42.823204354574443],
+    [141.658738772464943, 42.822853993102598],
+  ],
+  r3_4: [
+    [141.656646563798347, 42.824220461474532],
+    [141.656646563798347, 42.824220461474532],
+    [141.660565479138029, 42.822460206561665],
+    [141.661042866388698, 42.823510635957675],
+    [141.660490266648964, 42.824072336526058],
+    [141.660076903650776, 42.824975596067155],
   ]
 };
 
-//console.log(course_r3_1.features[0].geometry.coordinates);
-//console.log(course_r3_2.features[0].geometry.coordinates);
-
 map.on('load', () => {
     //地図追加
-  map.addSource('r3-1', {
+  map.addSource('r3_1', {
       type: "image",
       url: "./hokkaido/4-Sprint_one_more_R3-1.png",
-      coordinates: hokkaidomapcoord,
+      coordinates: mapcoord,
       //attribution: '宮川俊哉'
   });
 
-  map.addSource('r3-2', {
+  map.addSource('r3_2', {
       type: "image",
       url: "./hokkaido/4-Sprint_one_more_R3-2.png",
-      coordinates: hokkaidomapcoord
+      coordinates: mapcoord
   });
 
-  map.addSource('r3-3', {
+  map.addSource('r3_3', {
       type: "image",
       url: "./hokkaido/4-Sprint_one_more_R3-3.png",
-      coordinates: hokkaidomapcoord
+      coordinates: mapcoord
   });
 
-  map.addSource('r3-4', {
+  map.addSource('r3_4', {
       type: "image",
       url: "./hokkaido/4-Sprint_one_more_R3-4.png",
-      coordinates: hokkaidomapcoord
+      coordinates: mapcoord
   });
 
-  map.addLayer({id: "r3-1", source: "r3-1", type: "raster", paint: {}, style: {}});
-  map.addLayer({id: "r3-2", source: "r3-2", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
-  map.addLayer({id: "r3-3", source: "r3-3", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
-  map.addLayer({id: "r3-4", source: "r3-4", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
+  map.addLayer({id: "r3_1", source: "r3_1", type: "raster", paint: {}, style: {}});
+  map.addLayer({id: "r3_2", source: "r3_2", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
+  map.addLayer({id: "r3_3", source: "r3_3", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
+  map.addLayer({id: "r3_4", source: "r3_4", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
 
 /*             const bbox = map.getBounds(hokkaidomapcoord);
   console.log(bbox);
   map.fitBounds(bbox); */
 
   //ルート追加
-  map.addSource('route_r3-1', {
+  map.addSource('route_r3_1', {
     type: 'geojson',
     data: './route/r3-1.geojson'
   });
-  map.addSource('route_r3-2', {
+  map.addSource('route_r3_2', {
     type: 'geojson',
     data: './route/r3-2.geojson',
   });
@@ -177,9 +162,9 @@ map.on('load', () => {
   //map.addLayer({id: 'outline', type: 'line', source: 'route_r3-1', paint: {'line-width': 0.5, 'line-color': 'black', 'line-gap-width': 2.1,'line-dasharray': [1, 1]}});
   //点線じゃないからダメだった。
   map.addLayer({
-    id: 'route_r3-1',
+    id: 'route_r3_1',
     type: 'line',
-    source: 'route_r3-1',
+    source: 'route_r3_1',
     //"layout": {'visibility': 'none'},
     paint: {
       'line-width': 2,
@@ -196,9 +181,9 @@ map.on('load', () => {
   });
   
   map.addLayer({
-    id: 'route_r3-2',
+    id: 'route_r3_2',
     type: 'line',
-    source: 'route_r3-2',
+    source: 'route_r3_2',
     "layout": {'visibility': 'none'},
     paint: {
       'line-width': 2,
@@ -242,56 +227,71 @@ map.on('load', () => {
     }
   }
 
+  
   //chatGPT
   //leg dropdown
   //possible to optimize
-  function updateSecondDropdown() {
-    var secondDropdown = document.getElementById("secondDropdown");
-    var optionsHTML = "<option value='blank'>全体</option>";
-
-    if (selectedCourse === "r3-1") {
-      optionsHTML += "<option value='0'>△-1</option>";
-      for (var i = 1; i <= 16; i++) {
-        optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
-      }
-      //console.log(i); i=17
-      optionsHTML += "<option value='99'>"+ i + "- ◎</option>";
-      //optionsHTML += "<option value='13'>13-◎</option>";
-    } else if (selectedCourse === "r3-2") {
-      optionsHTML += "<option value='0'>△-1</option>";
-        for (var i = 1; i <= 14; i++) {
-            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
-        }
-        optionsHTML += "<option value='99'>"+ i + "- ◎</option>";
-    } else if (selectedCourse === "r3-3") {
-      optionsHTML += "<option value='0'>△-1</option>";
-        for (var i = 1; i <= 12; i++) {
-            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
-        }
-        optionsHTML += "<option value='99'>"+ i + "- ◎</option>";
-    } else if (selectedCourse === "r3-4") {
-      optionsHTML += "<option value='0'>△-1</option>";
-        for (var i = 1; i <= 8; i++) {
-            optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
-        }
-        optionsHTML += "<option value='99'>"+ i + "- ◎</option>";
+  function updateSecondDropdown(targetCourseCoordinates) {
+    length = targetCourseCoordinates.length-3;
+    var optionsHTML = "<option value='99'>全体</option>";
+    optionsHTML += "<option value='0'>△-1</option>";
+    for (var i = 1; i <= length; i++) {
+      optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
     }
-    secondDropdown.innerHTML = "<label><b>表示</b></label><br><select>" + optionsHTML + "</select>";
-  }
+    optionsHTML += "<option value='"+i+"'>"+ i + "-◎</option>";
+    secondDropdown.innerHTML = "<label><b>表示</b></label><br><select id= 'leg'>" + optionsHTML + "</select>";
 
-  //able to get "selectedCourse"&"option value", then change map view
+    document.getElementById(('leg')).addEventListener('change', function() {
+      //get value
+      let selectedValue = parseInt(this.value);
+      //let selectedValuePlusOne = selectedValue+1;
+      //console.log(selectedValuePlusOne);
+      
+      //check
+      //console.log("選択された値:", selectedValue);
+      // selectedValue=99: map, other: leg
+      if (selectedValue === 99) {
+        // fit map
+        console.log("選択された値は99です。");
+        map.fitBounds(
+          [mapcoord[3],mapcoord[1]], {bearing: turfbearing, zoom: 15}
+        );
+      } else {
+        // selectedValueが99でない場合の処理
+        console.log("選択された値は99ではありません。");
+        // fit leg
+        console.log(targetCourseCoordinates[selectedValue]);
+        console.log(targetCourseCoordinates[selectedValue+1]);
+        let legstart = targetCourseCoordinates[selectedValue];
+        let legend = targetCourseCoordinates[selectedValue+1];
+        //console.log(legstart, legend);
+        let legBearing = bearing(legstart,legend);
+        let mulpoints = multiPoint([legstart,legend]);
+        console.log(mulpoints);
+        let legBbox = bbox(mulpoints);  //get geojson, infinity :D
+        console.log(legBbox);
+        let sw = [legBbox[0], legBbox[1]];
+        let ne = [legBbox[2], legBbox[3]];
+        let v3 = [sw, ne];
+        console.log(v3);
+        map.fitBounds(v3, {
+          padding: {top: 100, bottom:100}, //, left: 40, right: 40
+          bearing: legBearing}
+        ); 
+      }
+    })
+  };
 
-  //初期値
-  let selectedCourse = "r3-1";
-  let visibleMap = "r3-1";
+  //reset
+  let selectedCourse = "r3_1";
+  let visibleMap = "r3_1";
   let visibleRoute = "route_" + visibleMap;
   //console.log(visibleRoute);
+  let targetCourseCoordinates = courseCoordinates[visibleMap];
 
-
-  //display visibleLayer's legend
   hideAllLegends()
   showSelectedLegend(visibleMap); 
-  updateSecondDropdown();
+  updateSecondDropdown(targetCourseCoordinates);
 
   //event lister, detecting chaning pul-down
   document.getElementById(('courseSelect')).addEventListener('change', function() {
@@ -305,6 +305,10 @@ map.on('load', () => {
     selectedCourse = this.value;
     visibleRoute = "route_"+selectedCourse;
 
+    //coursecoordinates
+    targetCourseCoordinates = courseCoordinates[selectedCourse];
+    //console.log(targetCourseCoordinates);
+
     //make selected map visible
     map.setLayoutProperty(selectedCourse, 'visibility', 'visible');
     map.setLayoutProperty(visibleRoute, 'visibility', 'visible');
@@ -313,11 +317,11 @@ map.on('load', () => {
     
     hideAllLegends(); // すべての .legend 要素を非表示にする
     showSelectedLegend(selectedCourse); // 選択されたコースに対応する .legend 要素を表示する
-    updateSecondDropdown(); //プルダウンメニュー生成
+    updateSecondDropdown(targetCourseCoordinates); //creating pul-down&event listner
   });
 
   //test
-  document.getElementById(('testselection')).addEventListener('change', function() {
+/*   document.getElementById(('testselection')).addEventListener('change', function() {
     let selectedLeg = parseInt(this.value);
     const legCoordinates = [courseCoordinates_r3_1[selectedLeg], courseCoordinates_r3_1[selectedLeg+1]];
     //console.log(legCoordinates);
@@ -337,7 +341,7 @@ map.on('load', () => {
     map.fitBounds(v3, {
       padding: {top: 100, bottom:100}, //, left: 40, right: 40
       bearing: legBearing});
-  });
+  }); */
 /*   //select arrays for the selected course
   const selectedcouse = "course_"+visibleMap;
 
