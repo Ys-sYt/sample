@@ -111,40 +111,35 @@ const courseCoordinates = {
 };
 
 map.on('load', () => {
-    //地図追加
+  //地図追加
   map.addSource('r3_1', {
-      type: "image",
-      url: "./hokkaido/4-Sprint_one_more_R3-1.png",
-      coordinates: mapcoord,
-      //attribution: '宮川俊哉'
+    type: "image",
+    url: "./hokkaido/4-Sprint_one_more_R3-1.png",
+    coordinates: mapcoord,
   });
 
   map.addSource('r3_2', {
-      type: "image",
-      url: "./hokkaido/4-Sprint_one_more_R3-2.png",
-      coordinates: mapcoord
+    type: "image",
+    url: "./hokkaido/4-Sprint_one_more_R3-2.png",
+    coordinates: mapcoord
   });
 
   map.addSource('r3_3', {
-      type: "image",
-      url: "./hokkaido/4-Sprint_one_more_R3-3.png",
-      coordinates: mapcoord
+    type: "image",
+    url: "./hokkaido/4-Sprint_one_more_R3-3.png",
+    coordinates: mapcoord
   });
 
   map.addSource('r3_4', {
-      type: "image",
-      url: "./hokkaido/4-Sprint_one_more_R3-4.png",
-      coordinates: mapcoord
+    type: "image",
+    url: "./hokkaido/4-Sprint_one_more_R3-4.png",
+    coordinates: mapcoord
   });
 
   map.addLayer({id: "r3_1", source: "r3_1", type: "raster", paint: {}, style: {}});
   map.addLayer({id: "r3_2", source: "r3_2", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
   map.addLayer({id: "r3_3", source: "r3_3", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
   map.addLayer({id: "r3_4", source: "r3_4", type: "raster", paint: {}, style: {}, "layout": {'visibility': 'none'}});
-
-/*             const bbox = map.getBounds(hokkaidomapcoord);
-  console.log(bbox);
-  map.fitBounds(bbox); */
 
   //ルート追加
   map.addSource('route_r3_1', {
@@ -161,6 +156,7 @@ map.on('load', () => {
   }); */
   //map.addLayer({id: 'outline', type: 'line', source: 'route_r3-1', paint: {'line-width': 0.5, 'line-color': 'black', 'line-gap-width': 2.1,'line-dasharray': [1, 1]}});
   //点線じゃないからダメだった。
+
   map.addLayer({
     id: 'route_r3_1',
     type: 'line',
@@ -198,20 +194,9 @@ map.on('load', () => {
       'line-dasharray': [3, 3],
     },
   });
-/*   map.addLayer({
-    id: 'm21_3',
-    type: 'line',
-    source: 'm21_3',
-    layout: {},
-    paint: {
-      'line-width': 2,
-      'line-color': '#ff8c00',
-      'line-dasharray': [3, 3],
-    },
-  }); */
 
   //chat gpt
-  // 選択されたコースに対応する ID を持つ .legend 要素を非表示にする
+  // legend all off
   function hideAllLegends() {
     var allLegends = document.querySelectorAll('.legend');
     allLegends.forEach(function(legend) {
@@ -219,7 +204,7 @@ map.on('load', () => {
     });
   }
 
-  // 選択されたコースに対応する ID を持つ .legend 要素を表示する
+  // show selected legend
   function showSelectedLegend(selectedCourse) {
     var legendToShow = document.getElementById(selectedCourse);
     if (legendToShow) {
@@ -227,59 +212,49 @@ map.on('load', () => {
     }
   }
 
-  
   //chatGPT
-  //leg dropdown
-  //possible to optimize
+  //function to create options depending on 
   function updateSecondDropdown(targetCourseCoordinates) {
     length = targetCourseCoordinates.length-3;
-    var optionsHTML = "<option value='99'>全体</option>";
+    var optionsHTML = "<option value='99'>All</option>";
     optionsHTML += "<option value='0'>△-1</option>";
     for (var i = 1; i <= length; i++) {
       optionsHTML += "<option value='" + i + "'>" + i + "-" + (i + 1) + "</option>";
     }
     optionsHTML += "<option value='"+i+"'>"+ i + "-◎</option>";
-    secondDropdown.innerHTML = "<label><b>表示</b></label><br><select id= 'leg'>" + optionsHTML + "</select>";
+    secondDropdown.innerHTML = "<label><b>Leg</b></label><br><select id= 'leg'>" + optionsHTML + "</select>";
 
     document.getElementById(('leg')).addEventListener('change', function() {
       //get value
       let selectedValue = parseInt(this.value);
-      //let selectedValuePlusOne = selectedValue+1;
-      //console.log(selectedValuePlusOne);
-      
-      //check
-      //console.log("選択された値:", selectedValue);
-      // selectedValue=99: map, other: leg
       if (selectedValue === 99) {
         // fit map
-        console.log("選択された値は99です。");
         map.fitBounds(
           [mapcoord[3],mapcoord[1]], {bearing: turfbearing, zoom: 15}
         );
-      } else {
-        // selectedValueが99でない場合の処理
-        console.log("選択された値は99ではありません。");
-        // fit leg
-        console.log(targetCourseCoordinates[selectedValue]);
-        console.log(targetCourseCoordinates[selectedValue+1]);
-        let legstart = targetCourseCoordinates[selectedValue];
-        let legend = targetCourseCoordinates[selectedValue+1];
-        //console.log(legstart, legend);
-        let legBearing = bearing(legstart,legend);
-        let mulpoints = multiPoint([legstart,legend]);
-        console.log(mulpoints);
-        let legBbox = bbox(mulpoints);  //get geojson, infinity :D
-        console.log(legBbox);
-        let sw = [legBbox[0], legBbox[1]];
-        let ne = [legBbox[2], legBbox[3]];
-        let v3 = [sw, ne];
-        console.log(v3);
-        map.fitBounds(v3, {
-          padding: {top: 100, bottom:100}, //, left: 40, right: 40
-          bearing: legBearing}
-        ); 
+        } else {
+          // fit leg
+          console.log(targetCourseCoordinates[selectedValue]);
+          console.log(targetCourseCoordinates[selectedValue+1]);
+          let legstart = targetCourseCoordinates[selectedValue];
+          let legend = targetCourseCoordinates[selectedValue+1];
+          //console.log(legstart, legend);
+          let legBearing = bearing(legstart,legend);
+          let mulpoints = multiPoint([legstart,legend]);
+          console.log(mulpoints);
+          let legBbox = bbox(mulpoints);  //get geojson, infinity :D
+          console.log(legBbox);
+          let sw = [legBbox[0], legBbox[1]];
+          let ne = [legBbox[2], legBbox[3]];
+          let v3 = [sw, ne];
+          console.log(v3);
+          map.fitBounds(v3, {
+            padding: {top: 100, bottom:100}, //, left: 40, right: 40
+            bearing: legBearing}
+          ); 
+        }
       }
-    })
+    )
   };
 
   //reset
@@ -305,59 +280,20 @@ map.on('load', () => {
     selectedCourse = this.value;
     visibleRoute = "route_"+selectedCourse;
 
-    //coursecoordinates
-    targetCourseCoordinates = courseCoordinates[selectedCourse];
-    //console.log(targetCourseCoordinates);
-
     //make selected map visible
     map.setLayoutProperty(selectedCourse, 'visibility', 'visible');
     map.setLayoutProperty(visibleRoute, 'visibility', 'visible');
   
     visibleMap = selectedCourse;    
     
-    hideAllLegends(); // すべての .legend 要素を非表示にする
-    showSelectedLegend(selectedCourse); // 選択されたコースに対応する .legend 要素を表示する
+    hideAllLegends(); // hide all legend
+    showSelectedLegend(selectedCourse); //show selected legend
+
+    
+    //LEG
+    targetCourseCoordinates = courseCoordinates[selectedCourse];
+    //console.log(targetCourseCoordinates);
     updateSecondDropdown(targetCourseCoordinates); //creating pul-down&event listner
   });
-
-  //test
-/*   document.getElementById(('testselection')).addEventListener('change', function() {
-    let selectedLeg = parseInt(this.value);
-    const legCoordinates = [courseCoordinates_r3_1[selectedLeg], courseCoordinates_r3_1[selectedLeg+1]];
-    //console.log(legCoordinates);
-    let legstart = point(legCoordinates[0]);
-    let legend = point(legCoordinates[1]);
-    let legBearing = bearing(legstart,legend);
-    //map.setBearing(legBearing);
-    //console.log(legBearing);
-    const line = lineString(legCoordinates);
-    //console.log(line);
-    let legBbox = bbox(line);  //get geojson, infinity :D
-    //console.log(legBbox);
-    let sw = [legBbox[0], legBbox[1]];
-    let ne = [legBbox[2], legBbox[3]];
-    let v3 = [sw, ne];
-    //console.log(v3);
-    map.fitBounds(v3, {
-      padding: {top: 100, bottom:100}, //, left: 40, right: 40
-      bearing: legBearing});
-  }); */
-/*   //select arrays for the selected course
-  const selectedcouse = "course_"+visibleMap;
-
-  //put eventlistner to get the value of pull-down
-  document.getElementById(('secondDropdown')).addEventListener('change', function() {
-    let selectedLeg = secondDropdown.value; //"blank", 0-?, 99
-    console.log(selectedLeg);
-
-    //change veiw
-    //get bbox from turf
-    selectedcouse.features[selectedLeg].geometry.coordinates;
-    map.fitBounds
-  
-    //レッグを選択する
-
-  }) */
-  
 });
 
